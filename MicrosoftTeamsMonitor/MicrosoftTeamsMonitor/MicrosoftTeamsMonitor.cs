@@ -73,7 +73,7 @@ namespace MicrosoftTeamsMonitor
                                 //if the file size has not changed, idle
                                 if (reader.BaseStream.Length == lastMaxOffset)
                                 {
-                                    if (i == 0)  // Check Teams process every minute (not too spamy)
+                                    if (i > 60)  // Check Teams process every minute (not too spamy)
                                     {
                                         if (!TeamsIsRunning())
                                         {
