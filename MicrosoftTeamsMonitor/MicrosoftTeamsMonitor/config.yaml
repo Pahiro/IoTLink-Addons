@@ -7,4 +7,4 @@
 # Write-Host $env:APPDATA\Microsoft\Teams\logs.txt
 ############################################################################
 teams:
-  logfile: C:\Users\YOUR-USERNAME-HERE\AppData\Roaming\Microsoft\Teams\logs.txt
+  logfile: C:\Users\benne\AppData\Roaming\Microsoft\Teams\logs.txt

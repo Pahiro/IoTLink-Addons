@@ -54,7 +54,7 @@ namespace MicrosoftTeamsMonitor
                     // Get Teams LogFile path from config.yaml
                     _microsoftTeamsConfig = MicrosoftTeamsConfig.FromConfiguration(_config.GetValue("teams"));
                     var logFile = _microsoftTeamsConfig.LogFile;
-
+                    Console.WriteLine(logFile);
                     if (File.Exists(logFile))
                     {
 
@@ -101,7 +101,7 @@ namespace MicrosoftTeamsMonitor
                                 string line = "";
 
                                 // Use Regex to identify relevant log entries (Egglestron, https://community.home-assistant.io/t/microsoft-teams-status/202388/38?u=ledhed)
-                                string pattern = @"(?<=StatusIndicatorStateService: Added )(\w+)";
+                                string pattern = @"(?<=Setting the taskbar overlay icon - )(.+)";
                                 Regex rgx = new Regex(pattern);
 
                                 while ((line = reader.ReadLine()) != null)
@@ -109,7 +109,8 @@ namespace MicrosoftTeamsMonitor
                                     if (rgx.IsMatch(line))
                                     {
                                         string Status = rgx.Split(line)[1];
-                                        if (Status != "NewActivity")
+                                        Status = Status.Trim();
+                                        if ((Status != "NewActivity") && (Status != "Unknown"))
                                         {
                                             // Publish Teams Status
                                             LoggerHelper.Info($"Sending status: {Status}");
