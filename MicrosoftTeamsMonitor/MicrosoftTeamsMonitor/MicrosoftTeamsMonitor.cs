@@ -54,7 +54,7 @@ namespace MicrosoftTeamsMonitor
                     // Get Teams LogFile path from config.yaml
                     _microsoftTeamsConfig = MicrosoftTeamsConfig.FromConfiguration(_config.GetValue("teams"));
                     var logFile = _microsoftTeamsConfig.LogFile;
-                    Console.WriteLine(logFile);
+
                     if (File.Exists(logFile))
                     {
 
@@ -73,7 +73,7 @@ namespace MicrosoftTeamsMonitor
                                 //if the file size has not changed, idle
                                 if (reader.BaseStream.Length == lastMaxOffset)
                                 {
-                                    if (i > 60)  // Check Teams process every minute (not too spamy)
+                                    if (i == 0)  // Check Teams process every minute (not too spamy)
                                     {
                                         if (!TeamsIsRunning())
                                         {
@@ -139,32 +139,14 @@ namespace MicrosoftTeamsMonitor
 
         private bool TeamsIsRunning()
         {
-            const string subkey = @"SOFTWARE\IM Providers\Teams";
+            //const string subkey = @"SOFTWARE\IM Providers\Teams";
             bool IsRunning = false;
-            try
+            
+            Process[] processes = Process.GetProcessesByName("Teams");
+            if (processes.Length != 0)
             {
-                using (RegistryKey key = Registry.LocalMachine.OpenSubKey(subkey))
-                {
-                    if (key != null)
-                    {
-                        Object processName = key.GetValue("ProcessName");
-                        if (processName != null)
-                        {
-                            Process[] pname = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(processName.ToString()));
-                            if (pname.Length > 0)
-                            {
-                                IsRunning = true;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                //react appropriately
-                LoggerHelper.Error(ex.StackTrace);
-            }
-
+                IsRunning = true;
+            }         
             return IsRunning;
         }
     }
