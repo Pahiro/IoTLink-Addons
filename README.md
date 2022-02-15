@@ -4,6 +4,9 @@ Addons for IoTLink
 # Microsoft Teams Monitor
 This Addon watches the MS Teams log file for status changes
 
+# Known Issues
+I've noticed that sometimes when the system starts, the service has an exclusive lock on the log file which results in Teams failing to start up. The current workaround is the use the "Stop Windows Service" shortcut, start teams and then use the "Start Windows Service" shortcut from IoTLink. The code used shouldn't result in an exclusive lock so not sure why it's happening. I'll explore a couple of different options when I get annoyed enough by it.
+
 Changes:
 - Initial Release: 0.0.1
 <br/>
