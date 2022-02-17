@@ -109,8 +109,7 @@ namespace MicrosoftTeamsMonitor
                                     if (rgx.IsMatch(line))
                                     {
                                         string Status = rgx.Split(line)[1];
-                                        Status = Status.Trim();
-                                        if ((Status != "NewActivity") && (Status != "Unknown"))
+                                        if ((Status != "New activity") && (Status != "Unknown"))
                                         {
                                             // Publish Teams Status
                                             LoggerHelper.Info($"Sending status: {Status}");
